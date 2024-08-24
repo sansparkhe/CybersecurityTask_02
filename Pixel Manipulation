@@ -1,0 +1,48 @@
+from PIL import Image
+import numpy as np
+
+def encrypt_image(image_path, key):
+    # Load the image
+    img = Image.open(image_path)
+    pixels = np.array(img)
+
+    # Apply a basic XOR operation with the key to each pixel value
+    encrypted_pixels = pixels ^ key
+
+    # Save the encrypted image
+    encrypted_image = Image.fromarray(encrypted_pixels)
+    encrypted_image.save("encrypted_image.png")
+    print("Image encrypted and saved as 'encrypted_image.png'")
+
+def decrypt_image(image_path, key):
+    # Load the encrypted image
+    img = Image.open(image_path)
+    pixels = np.array(img)
+
+    # Apply the XOR operation again to decrypt the image
+    decrypted_pixels = pixels ^ key
+
+    # Save the decrypted image
+    decrypted_image = Image.fromarray(decrypted_pixels)
+    decrypted_image.save("decrypted_image.png")
+    print("Image decrypted and saved as 'decrypted_image.png'")
+def main():
+    print("Image Encryption Tool")
+    print("1. Encrypt Image")
+    print("2. Decrypt Image")
+    
+    choice = input("Choose an option (1 or 2): ")
+    
+    if choice == "1":
+        image_path = input("Enter the path to the image you want to encrypt: ")
+        key = int(input("Enter an encryption key (integer): "))
+        encrypt_image(image_path, key)
+    elif choice == "2":
+        image_path = input("Enter the path to the encrypted image: ")
+        key = int(input("Enter the decryption key (must be the same as the encryption key): "))
+        decrypt_image(image_path, key)
+    else:
+        print("Invalid choice. Please select 1 or 2.")
+
+if __name__ == "__main__":
+    main()
